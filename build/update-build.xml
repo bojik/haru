@@ -1,36 +1,16 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <project>
-	<target name="update-build" depends="init"
+	<target name="update-build" depends="init" 
 		description="Update high-level project build">
+		<taskdef name="build_update" classname="phing.tasks.ext.BuildUpdateTask" />
 		<if>
-			<available file="${build.dir.root}/.svn"></available>
+			<isset property="bb"></isset>
 			<then>
-				<property name="update-build.command" value="svn update ${build.dir.root}"></property>
+				<build_update branch="${bb}" />
 			</then>
-			<elseif>
-				<available file="${build.dir.root}/.hg" />
-				<then>
-					<property name="update-build.command" value="cd ${build.dir.root}; hg pull -u; cd -;"></property>
-				</then>
-			</elseif>
-			<elseif>
-				<available file="${build.dir.root}/.git" />
-				<then>
-					<property name="update-build.command" value="cd ${build.dir.root}; git pull; cd -;"></property>
-				</then>
-			</elseif>
 			<else>
-				<echo>Other repos doesn't support</echo>
+				<build_update branch="" />
 			</else>
-		</if>
-
-		<if>
-			<isset property="update-build.command"></isset>
-			<then>
-				<echo>${update-build.command}</echo>
-				<exec command="${update-build.command}" 
-					passthru="true" checkreturn="true" level="info" />
-			</then>
 		</if>
 	</target>
 </project>
