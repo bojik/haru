@@ -54,6 +54,10 @@
 						<logFilename>${config.paths.logs}/templates_engine_log</logFilename>
 					</PhpNative>
 				</TemplatesEngine>
+				<Form>
+					<KCaptcha>
+					</KCaptcha>
+				</Form>
 			</modules>
 		</Miao>
 	</libs>
