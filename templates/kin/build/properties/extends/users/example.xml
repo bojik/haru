@@ -9,4 +9,16 @@
 	<system>
 		<username>${build.username}</username>
 	</system>
+    <libs>
+        <Pifa>
+            <modules>
+                <Db>
+                    <host>${born-properties.db.host}</host>
+                    <dbname>${born-properties.db.name}</dbname>
+                    <username>${born-properties.db.username}</username>
+                    <password>${born-properties.db.password}</password>
+                </Db>
+            </modules>
+        </Pifa>
+    </libs>
 </config>

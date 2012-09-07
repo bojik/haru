@@ -63,7 +63,7 @@
             </then>
             <else>
                 <propertyprompt propertyName="get-build.deploy.root"
-			promptText="Enter project path" />
+			promptText="Enter, please, a full path - a directory name, where the PiFa project will be installed" />
 		</else>
         </if>
         <property name="get-build.deploy.dst" value="${get-build.deploy.root}/build" />
@@ -75,7 +75,7 @@
             </then>
             <else>
                 <propertyprompt propertyName="get-build.deploy.vcs.src"
-                    promptText="Enter build url" />
+                    defaultValue="https://github.com/bojik/pifa-builds.git/trunk"   promptText="Enter, please, SVN|GIT url, where I could find build files" />
             </else>
         </if>
 
@@ -86,22 +86,74 @@
             </then>
             <else>
                 <propertyprompt propertyName="get-build.deploy.vcs.type"
-			defaultValue="svn" promptText="Enter VCS type" />
+			defaultValue="svn" promptText="I'm just a stupid robot, so I need to know, what type of version control system you use for link above" />
             </else>
         </if>
-			        <if>
+        <if>
             <isset property="host" />
             <then>
                 <property name="get-build.hosts.public" value="${host}" />
 		</then>
             <else>
                 <propertyprompt propertyName="get-build.hosts.public"
-			promptText="Enter project host" />
+			promptText="It seems, you would like to see statistic in your browser, therefore I tell me http host of this project" />
 
-</else>
+            </else>
         </if>
 
-		<echo>VCS type: ${get-build.deploy.vcs.type}</echo>
+        <if>
+            <isset property="dbhost" />
+            <then>
+                <property name="born-properties.db.host" value="${dbhost}" />
+            </then>
+            <else>
+                <propertyprompt propertyName="born-properties.db.host"
+                                defaultValue="localhost"
+                                promptText="Tell me, please, your mysql host" />
+
+            </else>
+        </if>
+
+        <if>
+            <isset property="dbname" />
+            <then>
+                <property name="born-properties.db.name" value="${dbname}" />
+            </then>
+            <else>
+                <propertyprompt propertyName="born-properties.db.name"
+                                defaultValue="pinba"
+                                promptText="Tell me, please, your mysql database, where pinba is installed" />
+
+            </else>
+        </if>
+
+        <if>
+            <isset property="dbuser" />
+            <then>
+                <property name="born-properties.db.username" value="${dbuser}" />
+            </then>
+            <else>
+                <propertyprompt propertyName="born-properties.db.username"
+                                defaultValue="root"
+                                promptText="Tell me, please, your mysql user" />
+
+            </else>
+        </if>
+
+        <if>
+            <isset property="dbpassword" />
+            <then>
+                <property name="born-properties.db.password" value="${dbpassword}" />
+            </then>
+            <else>
+                <propertyprompt propertyName="born-properties.db.password"
+                                defaultValue=""
+                                promptText="Tell me, please, your a password of mysql user" />
+
+            </else>
+        </if>
+
+        <echo>VCS type: ${get-build.deploy.vcs.type}</echo>
 		<echo>VCS checkout url: ${get-build.deploy.vcs.src}</echo>
 		<echo>Checkout to: ${get-build.deploy.dst}</echo>
 
@@ -181,7 +233,7 @@
         
         <copy file="${build.tmpldir.build}/bin/prop" tofile="${get-build.deploy.dst}/bin/prop" />
         <propertyprompt propertyName="get-build.deploy.setup"
-            promptText="Setup project? (yes or no)"
+            promptText="Whould you like to install the PiFa project? (yes or no)"
             useExistingValue="1" 
             defaultValue="1" />
         <property name="get-build.deploy.setup.command" value="${get-build.deploy.dst}/bin/phing install configure link" />
